@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+  <meta charset="UFT-8">
+  <title>数据管理分系统</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="../images/favicon-logo.ico" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../lib/datetimepicker.css">
+  <link rel="stylesheet" type="text/css" href="../lib/open-iconic-bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-slider.min.css">
+  <link rel="stylesheet" type="text/css" href="../lib/ol3/ol.css">
+  <link rel="stylesheet" type="text/css" href="../lib/jquery.mCustomScrollbar.css">
+  <link rel="stylesheet" type="text/css" href="../lib/jquery-ui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/geoInfo.css">
+</head>
+<body>
+  <div class="center row">
+    <div class="content content-shrink map-content" id="mapContent">
+    </div>
+    <div class="timeline-select">
+      <div class="time-unit">
+        <h>时间单位：</h>
+          <label><img src="../images/select.png" class="time-year" />年</label>
+          <label><img src="../images/select2.png" class="time-month"/>月</label>
+      </div>
+      <div class="time">
+        <div class="list-inline">
+            <div class="input-group date timeFrom">
+                <input type="text" id="timeFrom"  placeholder="从" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+            </div>
+            <div class="input-group date timeTo">
+                <input type="text" id="timeTo"  placeholder="至" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+            </div>
+        </div>
+      </div>
+      <div class="time-bar">
+        <button type="button" id="time-reset">重置</button>
+        <button type="button" id="time-sure">确定</button>
+      </div>
+    </div>
+    <div class="maap-timeline" id="timeline">
+    </div>
+    <div class="menu-result map-content">
+      <div class="bottom-content">
+        <div class="totalCount">
+          <div class="totalCountTitle">最近半年瓦片更新总量统计</div>
+          <div id="totalCount"></div>
+        </div>
+        <div class="levelCount">
+          <div class="levelCountTitle">各层级瓦片数量</div>
+          <div id="levelCount"></div>
+        </div>
+      </div>
+      <div class="menu-button">
+        <div class="menu-button-inner">
+          <img src="../images/right.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="search-place map-content">
+    <input type="text" placeholder="搜地名，搜目标" class="search-place-input" id="place_name" >
+    <button class="search-place-btn"><img src="../images/chaxun2.png" /></button>
+    <ul class="search-place-list"></ul>
+  </div>
+  <div class="mouse-position map-content" id="mouse-position"></div>
+  <div class="tip alert-warning modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-success modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/success.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-danger modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/wrong.png">
+    <span></span>
+  </div>
+  <div class="tip alert-query modal" tabindex="-1" aria-hidden="true">
+    <span id="spin"></span>
+    <span>正在查询...</span>
+  </div>
+  <div class="tip alert-info" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="messageBox modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="display: block;">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">提示信息</h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary jumpToProduct">跳转</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+</body>
+<script type="text/javascript" src="../lib/jquery.min.js"></script>
+<script type="text/javascript" src="../lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../lib/moment.js"></script>
+<script type="text/javascript" src="../lib/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="../lib/popper.js"></script>
+<script type="text/javascript" src="../lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="../lib/ol3/ol.js"></script>
+<script type="text/javascript" src="../lib/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="../lib/spin.js"></script>
+<script type="text/javascript" src="../lib/echarts.min.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/geoInfo.js"></script>
+</html>

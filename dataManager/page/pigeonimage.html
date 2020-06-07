@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ch">
+
+<head>
+  <meta charset="UFT-8">
+  <title>数据管理分系统</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="../images/favicon-logo.ico" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/datetimepicker.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/open-iconic-bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-slider.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-switch.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/ol3/ol.css">
+  <link rel="stylesheet" type="text/css" href="../lib/jquery.mCustomScrollbar.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/jquery-ui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootsrap-select/bootstrap-select.css" />
+  <link rel="stylesheet" type="text/css" href="../css/remotesensing.css">
+</head>
+
+<body>
+  <!-- <div class="top row">
+    <div class="title col-2">
+      <img src="../images/logo.png"><span>数据管理分系统</span>
+    </div>
+    <div class="col-3 btn-group-sm mode-select">
+      <button type="button" data-mode="list" class="active"><img src="../images/liebiao2.png" />列表模式</button>
+      <button type="button" data-mode="map"><img src="../images/ditu.png" />地图模式</button>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3 sub-title">
+      <div>首页</div>
+      <div class="active">数据管理</div>
+      <div>综合检索</div>
+    </div>
+    <div class="user col-1">
+      <img class="user-icon" src="../images/user.jpg">
+      <span class="user-name">User</span>
+      <img src="../images/xiala2.png" data-toggle="collapse" data-target="#logout">
+      <div class="collapse hide" id="logout">
+        <div>登出<img src="../images/zhuxiao.png"></div>
+      </div>
+    </div>
+  </div> -->
+  <div class="center row">
+    <!-- <div class="center-nav data-type">
+      <div class="data-type-list" type="remotesensing" data-toggle="collapse" data-target="#remotesense">
+        <img src="../images/remotesensing.png" />遥感影像数据<img src="../images/zhankai.png" class="dropdown-btn" />
+      </div>
+      <div class="collapse data-type-second-list show" id="remotesense">
+        <div table="cooperative" page="remotesensing">HZ影像数据</div>
+        <div table="uncooperative" page="remotesensing">FHZ影像数据</div>
+        <div table="">哨兵影像数据</div>
+        <div table="pigeonimage" page="pigeonimage" class="clicked">鸽群影像数据</div>
+      </div>
+      <div class="data-type-list" type="geoInfo" data-toggle="collapse" data-target="#basicgeogrephy">
+        <img src="../images/remotesensing.png" />基础地理信息数据<img src="../images/xiala.png" class="dropdown-btn" />
+      </div>
+      <div class="collapse data-type-second-list" id="basicgeogrephy">
+        <div table="GE">GE影像瓦片地图</div>
+        <div table="demimage" page="pigeonimage">ALOS DEM数据</div>
+        <div table="GE">GE倾斜摄影数据</div>
+        <div table="GE">Cesuim地形图</div>
+        <div table="vector_metainfo" page="vector_metainfo">OSM矢量瓦片地图</div>
+        <div table="GE">OSM栅格瓦片地图</div>
+        <div table="GE">三维建筑模型数据</div>
+        <div table="GE">POI数据</div>
+        <div table="GE">标注数据</div>
+      </div>
+    </div> -->
+    <div class="list-content">
+      <div class="input-group list-search">
+        <input type="text" placeholder="搜索..." id="list-search-input">
+        <div class="input-group-append">
+          <button type="button" id="list-search-popup" data-toggle="collapse" data-target="#list-search-item">┇</button>
+          <button type="button" id="list-search-btn"><img src="../images/chaxun2.png" /></button>
+        </div>
+      </div>
+      <div id="list-search-item" class="collapse input-group">
+        <div class="input-lnglat-menu">
+          <ul class="nav">
+            <li class="nav-item  clicked" id="list-rect-select">
+              <a class="nav-link">矩形</a>
+            </li>
+            <li class="nav-item" id="list-circle-select">
+              <a class="nav-link">圆</a>
+            </li>
+            <span id="lnglatTip">经纬度输入格式为114.89或24 15 15</span>
+          </ul>
+          <div class="list-inline list-rect">
+            <div>
+              <label><span>经&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度：</span><input type="text"
+                  id="list-topleftlng" placeholder="左上角" /></label>
+            </div>
+            <div class="second-input">
+              <label><input type="text" class="second-input-text" id="list-bottomrightlng" placeholder="右下角" /></label>
+            </div>
+          </div>
+          <div class="list-inline list-rect">
+            <div>
+              <label><span>纬&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度：</span><input type="text"
+                  id="list-topleftlat" placeholder="左上角" /></label>
+            </div>
+            <div class="second-input">
+              <label><input type="text" class="second-input-text" id="list-bottomrightlat" placeholder="右下角" /></label>
+            </div>
+          </div>
+          <div class="list-inline">
+            <div class="list-circle">
+              <label><span>经&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度：</span><input id="circle-lng"
+                  type="text" /></label>
+            </div>
+            <div class="list-circle">
+              <label><span class="lat-input-span">纬度：</span><input type="text" id="circle-lat"
+                  class="second-input-text" /></label>
+            </div>
+          </div>
+          <div class="list-inline">
+            <div class="list-circle">
+              <label><span>半&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp径：</span><input id="circle-radius"
+                  type="text" /></label>
+              <span>米</span>
+            </div>
+          </div>
+        </div>
+        <div class="list-published list-timeForm pigeon-param">
+          <div class="list-inline">
+            <div class="input-group date timeFrom">
+              <label><span>发&nbsp布&nbsp时&nbsp间：</span></label>
+              <input type="text" id="list-publishedFrom" placeholder="从" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+              </span>
+            </div>
+            <div class="input-group date timeTo">
+              <input type="text" id="list-publishedTo" placeholder="至" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="list-tile_date list-timeForm dem-param">
+          <div class="list-inline">
+            <div class="input-group date timeFrom">
+              <label><span>入&nbsp库&nbsp时&nbsp间：</span></label>
+              <input type="text" id="list-tile_dateFrom" placeholder="从" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+              </span>
+            </div>
+            <div class="input-group date timeTo">
+              <input type="text" id="list-tile_dateTo" placeholder="至" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="list-resolustion dem-param">
+          <label><span>分辨率范围：</span></label>
+          <input id="list-resolution" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5"
+            data-slider-value="0" data-slider-id="list-BC" />
+          <span>米</span><span id="list-resolutionSliderVal">0</span>
+        </div>
+      </div>
+      <div class="list-search-table">
+        <table>
+          <thead>
+            <tr>
+              <th><img class="thead-all-select" src="../images/checknew.png" />选择</th>
+              <th class="list-item-type">格式</th>
+              <th class="list-published"><span class="headname">发布时间</span><span class="list-asc-desc"><img
+                    src="../images/asc.png" class="list-ASC"><img src="../images/desc.png" class="list-DESC"></span>
+              </th>
+              <th class="list-satellite_id"><span class="headname">卫星编号</span><span class="list-asc-desc"><img
+                    src="../images/asc.png" class="list-ASC"><img src="../images/desc.png" class="list-DESC"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="list-table-toolbar">
+          <div class="list-table-btn">
+            <button type="button" class="download">下载</button>
+            <button type="button" id="list-export">导出当前页</button>
+          </div>
+          <div class="list-page">
+            <img src="../images/prevPage.png" id="list-prevpage">
+            <input type="text" id="list-currentPage" value="1" />/<span id="list-totalPage">--</span>
+            <img src="../images/nextPage.png" id="list-nextpage">
+            共有<span>--</span>条
+          </div>
+        </div>
+      </div>
+      <div class="list-details">
+        <div>
+          <div class="list-details-title">详细信息</div>
+          <div class="list-details-text">
+            <div>
+              <span class="list-details-subTitle">
+                <img src="../images/weixingdaihao.png">卫星代号：</span>
+              <span class="details-satelliteid"></span>
+            </div>
+            <div>
+              <span class="list-details-subTitle">
+                <img src="../images/chengxiangshijian.png">发布时间：</span>
+              <span class="details-publishtime"></span>
+            </div>
+            <div>
+              <span class="list-details-subTitle">
+                <img src="../images/rukushijian.png">更新时间：</span>
+              <span class="details-updatetime"></span>
+            </div>
+            <div>
+              <span class="list-details-subTitle">
+                <img src="../images/sun_elevation.png">天&nbsp顶&nbsp角&nbsp：</span>
+              <span class="details-sun_elevation"></span>
+            </div>
+            <div style="display: none;">
+              <span class="list-details-subTitle">
+                <img src="../images/referencesystem.png">参&nbsp考&nbsp系&nbsp：</span>
+              <span class="details-spatial_ref_code"></span>
+            </div>
+            <div style="display: none;">
+              <span class="list-details-subTitle">
+                <img src="../images/chengxiangshijian.png">入库时间：</span>
+              <span class="details-tile_date"></span>
+            </div>
+            <div style="display: none;">
+              <span class="list-details-subTitle">
+                <img src="../images/resolution.png">分&nbsp辨&nbsp率&nbsp：</span>
+              <span class="details-resolution"></span>
+            </div>
+            <div style="display: none;">
+              <span class="list-details-subTitle">
+                <img src="../images/bandnum.png">波&nbsp段&nbsp数&nbsp：</span>
+              <span class="details-band_num"></span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="list-details-title">缩略图<span id="list-totalmap">查看全图</span></div>
+          <div class="list-details-picture">
+            <img src="../images/picture.png">
+          </div>
+          <!-- <div class="list-details-picture-none">
+                        <img src="../images/picture.png">
+                        <div>暂无图片</div>
+                    </div> -->
+        </div>
+        <div class="list-details-coord">
+          <div class="list-details-title">空间位置</div>
+          <div id="list-details-map"></div>
+        </div>
+      </div>
+    </div>
+    <div class="content content-shrink map-content" id="mapContent">
+    </div>
+    <div class="menu-result map-content">
+      <div class="top-menu">
+        <ul class="nav">
+          <li class="nav-item" id="search-item">
+            <a class="nav-link active">查询条件</a>
+          </li>
+          <li class="nav-item" id="search-result">
+            <a class="nav-link">查询结果</a>
+          </li>
+        </ul>
+      </div>
+      <div class="bottom-content">
+        <div class="search-item">
+          <!-- <div class="search-geo">
+                        <ul class="nav">
+                            <li class="nav-item clicked" id="country-select">
+                                <a class="nav-link active">行政区</a>
+                            </li>
+                            <li class="nav-item" id="latlng-select">
+                                <a class="nav-link">经纬度</a>
+                            </li>
+                        </ul>
+                        <form role="form" class="country">
+                            <div class="form-inline">
+                                <label for="country">行政区划</label>
+                                <select id="country">
+                                </select>
+                            </div>
+                        </form>
+                        <form role="form" class="latlng">
+                            <div class="form-inline">
+                                <label>经度</label>
+                                <input type="text" class="form-control" id="topLeftLng" placeholder="左上角">
+                                <input type="text" class="form-control" id="bottomRightLng" placeholder="右下角">
+                            </div>
+                            <div class="form-inline">
+                                <label>纬度</label>
+                                <input type="text" class="form-control" id="topLeftLat" placeholder="左上角">
+                                <input type="text" class="form-control" id="bottomRightLat" placeholder="右下角">
+                            </div>
+                            <div class="form-inline latlng-operate">
+                                <button type="button" id="HDMS">度分秒转换</button>
+                                <button type="button" id="location">定位</button>
+                                <button type="button" id="clearlatLng">清除</button>
+                            </div>
+                        </form>
+                    </div> -->
+          <div class="search-input">
+            <form role="form">
+              <input type="text" placeholder="搜索（以，；为分隔符）" />
+            </form>
+            <button><img src="../images/chaxun.png" /></button>
+          </div>
+          <div class="time pigeon-param">
+            <form role="form" class="form-inline">
+              <div class="input-group date timeFrom">
+                <label>发布时间</label>
+                <input type="text" id="publishedFrom" placeholder="从" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+              </div>
+              <div class="input-group date timeTo">
+                <input type="text" id="publishedTo" placeholder="至" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+              </div>
+            </form>
+          </div>
+          <div class="time dem-param">
+            <form role="form" class="form-inline">
+              <div class="input-group date timeFrom">
+                <label>入库时间</label>
+                <input type="text" id="tile_dateFrom" placeholder="从" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+              </div>
+              <div class="input-group date timeTo">
+                <input type="text" id="tile_dateTo" placeholder="至" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar oi oi-calendar" aria-hidden="true"></span>
+                </span>
+              </div>
+            </form>
+          </div>
+          <div class="resolutionItem dem-param">
+            分&nbsp&nbsp辨&nbsp&nbsp率
+            <input id="resolution" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5"
+              data-slider-value="5" data-slider-id="BC" />
+            <span id="resolutionSliderVal" style="margin-left: 10px;">5</span><span>米</span>
+          </div>
+          <div class="isSearch">
+            <button id="query">查询</button>
+            <button id="reset-search">重置</button>
+          </div>
+          <div></div>
+        </div>
+        <div class="search-result" style="display: none;">
+          <div class="select-result-total">
+            <span><img src="../images/checknew.png" class="selectAll">全选</span>
+            <span>查询结果<span id="total">--</span>景,已选择<span id="current-select">--</span>景</span>
+          </div>
+          <table class="result-table" style="">
+            <thead class="table-head">
+              <tr>
+                <td class="check"><img src="../images/checknew.png"></td>
+                <td class="operate">操作</td>
+                <td class="item-type">格式</td>
+                <td class="published"><span class="headname">发布时间</span>
+                  <div class="asc-desc">
+                    <img src="../images/asc.png" class="ASC">
+                    <img src="../images/desc.png" class="DESC">
+                  </div>
+                </td>
+                <td class="satellite_id"><span class="headname">卫星</span>
+                  <div class="asc-desc">
+                    <img src="../images/asc.png" class="ASC">
+                    <img src="../images/desc.png" class="DESC">
+                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              <tr>
+                <td><img src="../images/checknew.png"></td>
+                <td>操作</td>
+                <td>GF1-QWERTYUIIOJHGFDS</td>
+                <td>2020-05-20</td>
+                <td>GF1</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <div class="page">
+                        <img src="../images/prevPage.png" id="prevpage">
+                        <input type="text" id="currentPage" value="" />/<span id="totalPage"></span>
+                        <img src="../images/nextPage.png" id="nextpage">
+                        共有<span></span>条
+                    </div> -->
+          <div class="result-bottom">
+            <div class="page">
+              <ul class="pagination" id="page" style="margin-bottom: 5px;">
+                <li class="page-item disabled" id="start">
+                  <span class="page-link">
+                    << </span>
+                </li>
+                <li class="page-item disabled" id="prevpage">
+                  <span class="page-link">
+                    < </span>
+                </li>
+                <li class="page-item" style="width: 80px;">
+                  <span class="page-link">
+                    <input type="text" id="currentPage" value="" />/<span id="totalPage"></span>
+                  </span>
+                </li>
+                <li class="page-item" id="nextpage"><span class="page-link">></span></li>
+                <li class="page-item" id="end"><span class="page-link">>></span></li>
+              </ul>
+            </div>
+            <div class="btn-group page-btn">
+              <button type="button" class="download">下载</button>
+              <button type="button" class="export">导出当前页</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-button">
+        <div class="menu-button-inner">
+          <img src="../images/right.png" />
+        </div>
+      </div>
+        <!-- 地图绘制工具栏 -->
+      <div class="map-toolbar map-content">
+        <button data-toggle="tooltip" data-placement="bottom" title="绘制矩形" id="rectangle"><img
+            src="../images/rectangle.png"></button>
+        <button data-toggle="tooltip" data-placement="bottom" title="绘制多边形" id="polygon"><img
+            src="../images/polygon.png"></button>
+        <button data-toggle="tooltip" data-placement="bottom" title="复位" id="reset"><img
+            src="../images/searchBlue.png"></button>
+        <button data-toggle="tooltip" data-placement="bottom" title="清除" id="cleardraw"><img
+            src="../images/closeBlue.png"></button>
+      </div>
+    </div>
+  </div>
+  <!-- 地名、目标搜索框 -->
+  <div class="search-place map-content">
+    <div class="search-place-item">
+      <input type="text" placeholder="搜地名，搜目标" class="search-place-input" id="place_name">
+      <button class="search-place-btn"><img src="../images/chaxun2.png" /></button>
+    </div>
+    <ul class="search-place-list">
+
+    </ul>
+  </div>
+  <!-- 地图位置信息展示 -->
+  <div class="mouse-position map-content" id="mouse-position"></div>
+  <!-- 全图窗口 -->
+  <div class="ui-widget-content previewMap" id="previewAll">
+    <div class="ui-widget-header previewMapTitle" id="previewMapTitle"
+      style="background:#fff;border-bottom: 1px solid #dddddd;">
+      <span>影像预览</span>
+      <img src="../images/big.png" class="big reshape hide">
+      <img src="../images/small.png" class="small reshape">
+      <img src="../images/close.png" class="close" id="closePreiview">
+    </div>
+    <div class="btn-group layermenu">
+      <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#layerInfo"
+        style="height:35px;margin-top: 5px;">菜单</button>
+      <div class="show collapse" id="layerInfo">
+        <div class="bandchoose">
+          <span style="float:left;font-size: 16px;">增强:</span>
+          <div class="bootstrap-switch bootstrap-switch-mini" style="margin-left: 10px;max-width: 65px;">
+            <input type="checkbox" name="status" data-size="mini" id="switch">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="previewMap" tabindex="0" style="width:100%;height:calc(100% - 55px);">
+    </div>
+    <div id="preview-mouse-position" style="position: absolute;left: 20px;top: 93%;color: red;z-index: 9999999999;">
+    </div>
+  </div>
+  <!-- 下载列表 -->
+  <div id='downloadList' class="ui-widget-content">
+    <div id='downloadTitle' class="ui-widget-header">
+      <span>下载列表</span>
+      <img src='../images/close.png' id='closeDownloadList'>
+    </div>
+    <div id='downTable'>
+      <div id='downTableTitle'><span class="downName">数据名称</span><span class="downStatus">状态</span></div>
+      <div id='downTableContent'>
+        <div class="downTableContent"></div>
+      </div>
+    </div>
+  </div>
+  <div class="tip alert-warning modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-success modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/success.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-danger modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/wrong.png">
+    <span></span>
+  </div>
+  <div class="tip alert-query modal" tabindex="-1" aria-hidden="true">
+    <span id="spin"></span>
+    <span id="alert-text">正在查询...</span>
+  </div>
+  <div class="tip alert-info" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="messageBox modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="display: block;">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">提示信息</h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary jumpToProduct">跳转</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+</body>
+<script type="text/javascript" src="../lib/jquery.min.js"></script>
+<script type="text/javascript" src="../lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../lib/moment.js"></script>
+<script type="text/javascript" src="../lib/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="../lib/popper.js"></script>
+<script type="text/javascript" src="../lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="../lib/ol3/ol.js"></script>
+<script type="text/javascript" src="../lib/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="../lib/jquery.table2excel.js"></script>
+<script type="text/javascript" src="../lib/spin.js"></script>
+<script type="text/javascript" src="../lib/bootsrap-select/bootstrap-select.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/pigeonimage.js"></script>
+
+</html>
