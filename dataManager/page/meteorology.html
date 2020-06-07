@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+  <meta charset="UFT-8">
+  <title>数据管理分系统</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="../images/favicon-logo.ico" />
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../lib/datetimepicker.css">
+  <link rel="stylesheet" type="text/css" href="../lib/open-iconic-bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-slider.min.css">
+  <link rel="stylesheet" type="text/css" href="../lib/ol3/ol.css">
+  <link rel="stylesheet" type="text/css" href="../lib/jquery.mCustomScrollbar.css">
+  <link rel="stylesheet" type="text/css" href="../lib/jquery-ui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/meteorology.css">
+</head>
+<body>
+  <div class="center row">
+    <div class="content content-shrink map-content" id="mapContent">
+      <div id="popup" class="ol-popup">
+        <div class="popup-title">浮标信息<img src="../images/close.png" id="popup-closer" class="ol-popup-closer"/></div>
+        <div class="popup-content" id="popup-content">
+            <div>
+              <label>浮标名称:</label>
+              <input type="text" readonly id="properties-name">
+            </div>
+            <div>
+              <label>浮标类型:</label>
+              <input type="text" readonly id="properties-type">
+            </div>
+            <div>
+              <label>提&nbsp供&nbsp者&nbsp:</label>
+              <input type="text" readonly  id="properties-owner">
+            </div>
+            <div>
+              <label>经&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度:</label>
+              <input type="text" readonly  id="properties-lng">
+            </div>
+            <div>
+              <label>纬&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp度:</label>
+              <input type="text" readonly  id="properties-lat">
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="menu-result map-content">
+      <div class="top-menu">
+        <ul class="nav">
+            <li class="nav-item clicked" data-table="stations_meteorologicals">
+                <a class="nav-link"><img src="../images/qixiang-2.png" class="qixiang"/>气象</a>
+            </li>
+            <li class="nav-item" data-table="stations_height_data">
+                <a class="nav-link"><img src="../images/shuiwen.png" class="shuiwen" />水文</a>
+            </li>
+            <li class="nav-item" data-table="stations_spectral_wave">
+              <a class="nav-link"><img src="../images/hyhj.png" class="hyhj"/>海洋环境</a>
+          </li>
+        </ul>
+    </div>
+    <div class="result-table">
+      <table>
+        <thead>
+          <tr class="stations_meteorologicals">
+            <th>风向</th>
+            <th>风速</th>
+            <th><span>有效</span><span>波高</span></th>
+            <th><span>空气</span><span>湿度</span></th>
+            <th><span>主波</span><span>周期</span></th>
+          </tr>
+          <tr class="stations_height_data">
+            <th><span>测量</span><span>类型</span></th>
+            <th><span>水柱</span><span>高度</span></th>
+            <th><span>有效</span><span>波高</span></th>
+            <th><span>浪涌</span><span>高度</span></th>
+            <th><span>膨胀</span><span>周期</span></th>
+            <th><span>风潮</span><span>高度</span></th>
+          </tr>
+          <tr class="stations_spectral_wave">
+            <th>测探</th>
+            <th>浊度</th>
+            <th>电导率</th>
+            <th>酸碱度</th>
+            <th><span>海洋</span><span>温度</span></th>
+            <th><span>溶解氧</span><span>浓度</span></th>
+            <th><span>叶绿素</span><span>浓度</span></th>
+          </tr>
+        </thead>
+        <tbody class="stations_meteorologicals">
+        </tbody>
+      </table>
+      <div id="tbody-init">请搜索后点击地图浮标获取表格内容</div>
+      <div id="tbody-none"><span>暂无相关信息</span></div>
+      <div class="page">
+        <ul class="pagination" id="page" style="margin-bottom: 5px;">
+            <li class="page-item disabled" id="start">
+                <span class="page-link">
+                    << </span>
+            </li>
+            <li class="page-item disabled" id="prevpage">
+                <span class="page-link">
+                    < </span>
+            </li>
+            <li class="page-item " style="width: 80px;">
+                <span class="page-link">
+                    <input type="text" id="currentPage" value=" " />/&nbsp;<span id="totalPage"> </span>
+                </span>
+            </li>
+            <li class="page-item disabled" id="nextpage"><span class="page-link">></span></li>
+            <li class="page-item disabled" id="end"><span class="page-link">>></span></li>
+        </ul>
+    </div>
+    </div> 
+    <div class="menu-button">
+      <div class="menu-button-inner">
+        <img src="../images/right.png" />
+      </div>
+    </div>
+  </div>
+  <div class="search-place map-content">
+    <input type="text" placeholder="依据浮标名称或浮标类型搜索" class="search-place-input">
+    <button class="search-place-btn"><img src="../images/chaxun2.png" /></button>
+  </div>
+  <div class="mouse-position map-content" id="mouse-position"></div>
+  <div class="tip alert-warning modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-success modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/success.png" />
+    <span></span>
+  </div>
+  <div class="tip alert-danger modal" tabindex="-1" aria-hidden="true">
+    <img src="../images/wrong.png">
+    <span></span>
+  </div>
+  <div class="tip alert-query modal" tabindex="-1" aria-hidden="true">
+    <span id="spin"></span>
+    <span>正在查询...</span>
+  </div>
+  <div class="tip alert-info" tabindex="-1" aria-hidden="true">
+    <img src="../images/tip.png" />
+    <span></span>
+  </div>
+  <div class="messageBox modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="display: block;">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">提示信息</h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary jumpToProduct">跳转</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+</body>
+<script type="text/javascript" src="../lib/jquery.min.js"></script>
+<script type="text/javascript" src="../lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../lib/moment.js"></script>
+<script type="text/javascript" src="../lib/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="../lib/popper.js"></script>
+<script type="text/javascript" src="../lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="../lib/ol3/ol.js"></script>
+<script type="text/javascript" src="../lib/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="../lib/spin.js"></script>
+<script type="text/javascript" src="../lib/echarts.min.js"></script>
+<script type="text/javascript" src="../js/config.js"></script>
+<script type="text/javascript" src="../js/meteorology.js"></script>
+
+</html>
