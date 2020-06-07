@@ -2369,4 +2369,8 @@ function changeType(type, mod){
 }
 window.changeMode = changeMode
 window.changeType = changeType
+<<<<<<< HEAD
 window.changeType('pigeonimage', 'list') //demimage
+=======
+//window.changeType('pigeonimage', 'list') //demimage
+>>>>>>> 12e218b... 0607

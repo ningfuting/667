@@ -2085,4 +2085,8 @@ function changeMode(mod){
   
 }
 window.changeMode = changeMode;
+<<<<<<< HEAD
 window.changeMode('map')
+=======
+//window.changeMode('map')
+>>>>>>> 12e218b... 0607
